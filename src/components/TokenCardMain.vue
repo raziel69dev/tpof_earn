@@ -38,10 +38,10 @@
             </div>
         </div>
         <div class="token-footer">
-            <button class="btn buy">
+            <button class="btn buy" @click="buyNow()">
                 Buy now
             </button>
-            <button class="btn outline">
+            <button class="btn outline" @click="routeUser()" v-if="token.level !== 'reward_second'">
                 Rewards
             </button>
             <button class="btn outline square">
@@ -49,7 +49,7 @@
                     <path d="M14.4891 0.5429L1.68512 5.19652C1.27034 5.34719 1.29548 5.90233 1.72246 6.01974L4.97604 6.91574L6.19021 10.5091C6.31706 10.8845 6.82709 10.9981 7.12219 10.7171L8.80451 9.11531L12.105 11.3749C12.509 11.6515 13.0841 11.4459 13.1868 10.9885L15.3732 1.24112C15.4802 0.763661 14.9766 0.365889 14.4893 0.5429H14.4891ZM12.8838 2.70609L6.93647 7.61106C6.87711 7.65994 6.83953 7.72757 6.83068 7.80101L6.60163 9.69947C6.59421 9.7613 6.50111 9.76956 6.48148 9.71018L5.53944 6.8789C5.49636 6.74922 5.55261 6.60881 5.6761 6.53738L12.6993 2.47484C12.8608 2.38131 13.0262 2.58868 12.8838 2.70609Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <button class="btn outline square" @click="popup.open = true">
+            <button class="btn outline square" @click="openQrCode()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path d="M4.8877 4.5H4.8977M15.8877 4.5H15.8977M4.8877 15.5H4.8977M11.3877 11H11.3977M15.8877 15.5H15.8977M15.3877 19H19.3877V15M12.3877 14.5V19M19.3877 12H14.8877M13.9877 8H17.7877C18.3477 8 18.6278 8 18.8417 7.89101C19.0298 7.79513 19.1828 7.64215 19.2787 7.45399C19.3877 7.24008 19.3877 6.96005 19.3877 6.4V2.6C19.3877 2.03995 19.3877 1.75992 19.2787 1.54601C19.1828 1.35785 19.0298 1.20487 18.8417 1.10899C18.6278 1 18.3477 1 17.7877 1H13.9877C13.4276 1 13.1476 1 12.9337 1.10899C12.7455 1.20487 12.5926 1.35785 12.4967 1.54601C12.3877 1.75992 12.3877 2.03995 12.3877 2.6V6.4C12.3877 6.96005 12.3877 7.24008 12.4967 7.45399C12.5926 7.64215 12.7455 7.79513 12.9337 7.89101C13.1476 8 13.4276 8 13.9877 8ZM2.9877 8H6.7877C7.34775 8 7.62777 8 7.84169 7.89101C8.02985 7.79513 8.18283 7.64215 8.2787 7.45399C8.3877 7.24008 8.3877 6.96005 8.3877 6.4V2.6C8.3877 2.03995 8.3877 1.75992 8.2787 1.54601C8.18283 1.35785 8.02985 1.20487 7.84169 1.10899C7.62777 1 7.34775 1 6.7877 1H2.9877C2.42764 1 2.14762 1 1.9337 1.10899C1.74554 1.20487 1.59256 1.35785 1.49669 1.54601C1.3877 1.75992 1.3877 2.03995 1.3877 2.6V6.4C1.3877 6.96005 1.3877 7.24008 1.49669 7.45399C1.59256 7.64215 1.74554 7.79513 1.9337 7.89101C2.14762 8 2.42764 8 2.9877 8ZM2.9877 19H6.7877C7.34775 19 7.62777 19 7.84169 18.891C8.02985 18.7951 8.18283 18.6422 8.2787 18.454C8.3877 18.2401 8.3877 17.9601 8.3877 17.4V13.6C8.3877 13.0399 8.3877 12.7599 8.2787 12.546C8.18283 12.3578 8.02985 12.2049 7.84169 12.109C7.62777 12 7.34775 12 6.7877 12H2.9877C2.42764 12 2.14762 12 1.9337 12.109C1.74554 12.2049 1.59256 12.3578 1.49669 12.546C1.3877 12.7599 1.3877 13.0399 1.3877 13.6V17.4C1.3877 17.9601 1.3877 18.2401 1.49669 18.454C1.59256 18.6422 1.74554 18.7951 1.9337 18.891C2.14762 19 2.42764 19 2.9877 19Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -58,7 +58,7 @@
 
         <Teleport to="main">
             <PopupWrapper v-if="popup.open" @close="popup.open = false">
-                <img :src="token.qrcode" alt="qr">
+              <component :is="popup.component" :qrCode="token.qrcode" />
             </PopupWrapper>
         </Teleport>
     </div>
@@ -67,13 +67,39 @@
 <script setup>
 import {userWallet} from "../stores/User.js";
 import PopupWrapper from "./PopupWrapper.vue";
-import {reactive} from "vue";
+import {reactive, shallowRef} from "vue";
+import {useRouter} from "vue-router";
+import ConnectWallet from "@/pages/ConnectWallet.vue";
+import QrCode from "@/components/QrCode.vue";
 
 const props = defineProps(['token'])
 
 const popup = reactive({
-    open: false
+    open: false,
+    component: null
 })
+const router = useRouter()
+const routeUser = () => {
+  if (props.token.level === 'main') {
+    router.push('/#rewards_level_one')
+  } else {
+    router.push('/rewards_level_two')
+  }
+
+  console.log(props.token)
+}
+
+const buyNow = () => {
+  popup.open = true
+  if (userWallet.wallet === '') {
+    popup.component = shallowRef(ConnectWallet)
+  }
+}
+
+const openQrCode = () => {
+  popup.component = shallowRef(QrCode)
+  popup.open = true
+}
 
 </script>
 
@@ -92,6 +118,10 @@ const popup = reactive({
   &.reward_first {
     border-radius: 20px;
     background: linear-gradient(116deg, rgba(2, 44, 84, 0.90) 0%, rgba(42, 100, 156, 0.90) 100%);
+  }
+  &.reward_second {
+    border-radius: 20px;
+    background: linear-gradient(116deg, rgba(42, 100, 156, 0.90) 43.38%, rgba(166, 203, 239, 0.90) 100%);
   }
 
   &-header {

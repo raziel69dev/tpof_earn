@@ -72,6 +72,86 @@ export const allTokens = reactive([
         telegram: 'examlepidor.com',
         qrcode: qrcode,
         logotype: tpof,
-        level: 'reward_first'
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
+    },{
+        name: 'TOKEN NAME',
+        description: 'Token description, optionality',
+        price: '13.522,23',
+        issuer: 'Issuer',
+        domain: 'examlepidor.com',
+        telegram: 'examlepidor.com',
+        qrcode: qrcode,
+        logotype: tpof,
+        level: 'reward_second'
     },
 ])
