@@ -40,7 +40,7 @@ export const addWallet = (wallet) => {
 
 export const setBalances = (balances) => {
     for (let balance of balances ) {
-        const tokenBalance = allTokens.find(item => item.asset_code === balance.asset_code)
+        const tokenBalance = allTokens.find(item => item.asset_code.toUpperCase() === balance.asset_code.toUpperCase())
         tokenBalance ? tokenBalance.balance = balance.balance : null
     }
 }
