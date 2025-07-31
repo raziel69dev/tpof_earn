@@ -14,7 +14,7 @@ app.mount('#app')
 if(localStorage.getItem('userWallet')){
     setBalances(JSON.parse(localStorage.getItem('userBalance')))
     userWallet.balance = JSON.parse(localStorage.getItem('userBalance'))
-    userWallet.wallet = localStorage.getItem('userWallet')
+    userWallet.wallet = localStorage.getItem('userWallet').toString()
 } else {
     localStorage.clear()
 }

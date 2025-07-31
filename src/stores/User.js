@@ -1,4 +1,4 @@
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import {allTokens} from "./Tokens.js";
 
 export const userWallet = reactive({
@@ -39,8 +39,23 @@ export const addWallet = (wallet) => {
 }
 
 export const setBalances = (balances) => {
-    for (let balance of balances ) {
-        const tokenBalance = allTokens.find(item => item.asset_code.toUpperCase() === balance.asset_code.toUpperCase())
-        tokenBalance ? tokenBalance.balance = balance.balance : null
+    const balanceMap = {};
+    for (const item of balances) {
+        item.asset_code ? balanceMap[item.asset_code.toUpperCase()] = item.balance : null
+    }
+
+    for (const asset of allTokens) {
+        const assetCodeUpper = asset.asset_code.toUpperCase();
+
+        if (balanceMap[assetCodeUpper]) {
+            asset.balance = balanceMap[assetCodeUpper];
+        }
+
+        if (asset.subreward) {
+            const subRewardAssetCodeUpper = asset.subreward.asset_code.toUpperCase();
+            if (balanceMap[subRewardAssetCodeUpper]) {
+                asset.subreward.balance = balanceMap[subRewardAssetCodeUpper];
+            }
+        }
     }
 }
